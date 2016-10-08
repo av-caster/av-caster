@@ -75,6 +75,7 @@ OBJECTS := \
   $(JUCE_OBJDIR)/AvCaster_772dbfa2.o \
   $(JUCE_OBJDIR)/Gstreamer_6a628f1d.o \
   $(JUCE_OBJDIR)/IrcClient_3839b5ce.o \
+  $(JUCE_OBJDIR)/Gst_521d3fbf.o \
   $(JUCE_OBJDIR)/AvCasterStore_83095ca4.o \
   $(JUCE_OBJDIR)/Seeds_7de92226.o \
   $(JUCE_OBJDIR)/Trace_fd3024bc.o \
@@ -170,6 +171,11 @@ $(JUCE_OBJDIR)/Gstreamer_6a628f1d.o: ../../Source/Controllers/Gstreamer.cpp
 $(JUCE_OBJDIR)/IrcClient_3839b5ce.o: ../../Source/Controllers/IrcClient.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling IrcClient.cpp ($(CONFIG))"
+	@$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/Gst_521d3fbf.o: ../../Source/Lib/Gst.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling Gst.cpp ($(CONFIG))"
 	@$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/AvCasterStore_83095ca4.o: ../../Source/Models/AvCasterStore.cpp

@@ -193,6 +193,9 @@
           <File RelativePath="..\..\Source\Controllers\Gstreamer.h"/>
           <File RelativePath="..\..\Source\Controllers\IrcClient.h"/>
         </Filter>
+        <Filter Name="Lib">
+          <File RelativePath="..\..\Source\Lib\Gst.h"/>
+        </Filter>
         <Filter Name="Models">
           <File RelativePath="..\..\Source\Models\AvCasterStore.h"/>
           <File RelativePath="..\..\Source\Models\Seeds.h"/>
@@ -204,6 +207,7 @@
           <File RelativePath="..\..\Source\Trace\TraceChat.h"/>
           <File RelativePath="..\..\Source\Trace\TraceConfig.h"/>
           <File RelativePath="..\..\Source\Trace\TraceControls.h"/>
+          <File RelativePath="..\..\Source\Trace\TraceGst.h"/>
           <File RelativePath="..\..\Source\Trace\TraceGstreamer.h"/>
           <File RelativePath="..\..\Source\Trace\TraceIrcClient.h"/>
           <File RelativePath="..\..\Source\Trace\TraceMain.h"/>
@@ -240,6 +244,9 @@
           <File RelativePath="..\..\Source\Controllers\AvCaster.cpp"/>
           <File RelativePath="..\..\Source\Controllers\Gstreamer.cpp"/>
           <File RelativePath="..\..\Source\Controllers\IrcClient.cpp"/>
+        </Filter>
+        <Filter Name="Lib">
+          <File RelativePath="..\..\Source\Lib\Gst.cpp"/>
         </Filter>
         <Filter Name="Models">
           <File RelativePath="..\..\Source\Models\AvCasterStore.cpp"/>

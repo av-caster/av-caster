@@ -61,7 +61,6 @@ public:
   static bool           IsStaticPreset      () ;
   static int            GetPresetIdx        () ;
   static String         GetPresetName       () ;
-  static bool           GetIsPreviewActive  () ;
   static bool           GetIsConfigPending  () ;
   static StringArray    GetPresetsNames     () ;
   static StringArray    GetCameraNames      () ;

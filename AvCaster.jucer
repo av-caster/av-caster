@@ -30,6 +30,9 @@
         <FILE id="FQevmF" name="Gstreamer.h" compile="0" resource="0" file="Source/Controllers/Gstreamer.h"/>
         <FILE id="l437D6" name="IrcClient.h" compile="0" resource="0" file="Source/Controllers/IrcClient.h"/>
       </GROUP>
+      <GROUP id="{03134270-6EE0-64A6-9BCA-A2BA632E95DB}" name="Lib">
+        <FILE id="C8FGqH" name="Gst.h" compile="0" resource="0" file="Source/Lib/Gst.h"/>
+      </GROUP>
       <GROUP id="{449EB608-F7A7-9902-3D45-62AA93237D8C}" name="Models">
         <FILE id="jy2eVq" name="AvCasterStore.h" compile="0" resource="0" file="Source/Models/AvCasterStore.h"/>
         <FILE id="qqog3V" name="Seeds.h" compile="0" resource="0" file="Source/Models/Seeds.h"/>
@@ -42,6 +45,7 @@
         <FILE id="h9pAwt" name="TraceChat.h" compile="0" resource="0" file="Source/Trace/TraceChat.h"/>
         <FILE id="NyIKTu" name="TraceConfig.h" compile="0" resource="0" file="Source/Trace/TraceConfig.h"/>
         <FILE id="A1ReAf" name="TraceControls.h" compile="0" resource="0" file="Source/Trace/TraceControls.h"/>
+        <FILE id="tv1uB2" name="TraceGst.h" compile="0" resource="0" file="Source/Trace/TraceGst.h"/>
         <FILE id="dToFg4" name="TraceGstreamer.h" compile="0" resource="0"
               file="Source/Trace/TraceGstreamer.h"/>
         <FILE id="hB9rdH" name="TraceIrcClient.h" compile="0" resource="0"
@@ -85,6 +89,9 @@
         <FILE id="woBIF5" name="AvCaster.cpp" compile="1" resource="0" file="Source/Controllers/AvCaster.cpp"/>
         <FILE id="DWdbyP" name="Gstreamer.cpp" compile="1" resource="0" file="Source/Controllers/Gstreamer.cpp"/>
         <FILE id="MeBpm1" name="IrcClient.cpp" compile="1" resource="0" file="Source/Controllers/IrcClient.cpp"/>
+      </GROUP>
+      <GROUP id="{98C0B40F-92A5-9083-C9FA-74E1878198A8}" name="Lib">
+        <FILE id="QAzvT2" name="Gst.cpp" compile="1" resource="0" file="Source/Lib/Gst.cpp"/>
       </GROUP>
       <GROUP id="{7C73B5B3-CA01-0491-6468-F3AA66E67B45}" name="Models">
         <FILE id="Bn3TIV" name="AvCasterStore.cpp" compile="1" resource="0"

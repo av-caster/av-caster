@@ -163,6 +163,10 @@
       <Option compile="0"/>
       <Option link="0"/>
     </Unit>
+    <Unit filename="../../Source/Lib/Gst.h">
+      <Option compile="0"/>
+      <Option link="0"/>
+    </Unit>
     <Unit filename="../../Source/Models/AvCasterStore.h">
       <Option compile="0"/>
       <Option link="0"/>
@@ -192,6 +196,10 @@
       <Option link="0"/>
     </Unit>
     <Unit filename="../../Source/Trace/TraceControls.h">
+      <Option compile="0"/>
+      <Option link="0"/>
+    </Unit>
+    <Unit filename="../../Source/Trace/TraceGst.h">
       <Option compile="0"/>
       <Option link="0"/>
     </Unit>
@@ -283,6 +291,7 @@
     <Unit filename="../../Source/Controllers/AvCaster.cpp"/>
     <Unit filename="../../Source/Controllers/Gstreamer.cpp"/>
     <Unit filename="../../Source/Controllers/IrcClient.cpp"/>
+    <Unit filename="../../Source/Lib/Gst.cpp"/>
     <Unit filename="../../Source/Models/AvCasterStore.cpp"/>
     <Unit filename="../../Source/Models/Seeds.cpp"/>
     <Unit filename="../../Source/Trace/Trace.cpp"/>

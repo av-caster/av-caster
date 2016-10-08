@@ -17,6 +17,9 @@
     <Filter Include="AvCaster\Headers\Controllers">
       <UniqueIdentifier>{67BE24C5-0277-23E6-9108-42337C29F792}</UniqueIdentifier>
     </Filter>
+    <Filter Include="AvCaster\Headers\Lib">
+      <UniqueIdentifier>{08925381-FD28-497B-AA79-706C95A1A4FC}</UniqueIdentifier>
+    </Filter>
     <Filter Include="AvCaster\Headers\Models">
       <UniqueIdentifier>{6EF8008C-4CD6-2451-3626-5935E9DC5FAC}</UniqueIdentifier>
     </Filter>
@@ -34,6 +37,9 @@
     </Filter>
     <Filter Include="AvCaster\Source\Controllers">
       <UniqueIdentifier>{8AD59A18-F0D1-75D5-5057-B1E2683D73C7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AvCaster\Source\Lib">
+      <UniqueIdentifier>{F5235D8A-4C08-0291-224F-4D2C611AD4B8}</UniqueIdentifier>
     </Filter>
     <Filter Include="AvCaster\Source\Models">
       <UniqueIdentifier>{EA4170E5-49FC-E277-75B0-A8888198943D}</UniqueIdentifier>
@@ -252,6 +258,9 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Controllers\IrcClient.cpp">
       <Filter>AvCaster\Source\Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Lib\Gst.cpp">
+      <Filter>AvCaster\Source\Lib</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Models\AvCasterStore.cpp">
       <Filter>AvCaster\Source\Models</Filter>
@@ -1425,6 +1434,9 @@
     <ClInclude Include="..\..\Source\Controllers\IrcClient.h">
       <Filter>AvCaster\Headers\Controllers</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Lib\Gst.h">
+      <Filter>AvCaster\Headers\Lib</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\Models\AvCasterStore.h">
       <Filter>AvCaster\Headers\Models</Filter>
     </ClInclude>
@@ -1447,6 +1459,9 @@
       <Filter>AvCaster\Headers\Trace</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Trace\TraceControls.h">
+      <Filter>AvCaster\Headers\Trace</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Trace\TraceGst.h">
       <Filter>AvCaster\Headers\Trace</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Trace\TraceGstreamer.h">

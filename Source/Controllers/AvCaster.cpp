@@ -118,11 +118,6 @@ String AvCaster::GetPresetName()
   return STRING(current_preset[CONFIG::PRESET_NAME_ID]) ;
 }
 
-bool AvCaster::GetIsPreviewActive()
-{
-  return bool(Store->config[CONFIG::PREVIEW_ID]) && !GetIsConfigPending() ;
-}
-
 bool AvCaster::GetIsConfigPending() { return bool(Store->root[CONFIG::IS_PENDING_ID]) ; }
 
 StringArray AvCaster::GetPresetsNames() { return Store->presetsNames() ; }

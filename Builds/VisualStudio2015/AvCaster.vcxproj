@@ -137,6 +137,7 @@
     <ClCompile Include="..\..\Source\Controllers\AvCaster.cpp"/>
     <ClCompile Include="..\..\Source\Controllers\Gstreamer.cpp"/>
     <ClCompile Include="..\..\Source\Controllers\IrcClient.cpp"/>
+    <ClCompile Include="..\..\Source\Lib\Gst.cpp"/>
     <ClCompile Include="..\..\Source\Models\AvCasterStore.cpp"/>
     <ClCompile Include="..\..\Source\Models\Seeds.cpp"/>
     <ClCompile Include="..\..\Source\Trace\Trace.cpp"/>
@@ -1174,6 +1175,7 @@
     <ClInclude Include="..\..\Source\Controllers\AvCaster.h"/>
     <ClInclude Include="..\..\Source\Controllers\Gstreamer.h"/>
     <ClInclude Include="..\..\Source\Controllers\IrcClient.h"/>
+    <ClInclude Include="..\..\Source\Lib\Gst.h"/>
     <ClInclude Include="..\..\Source\Models\AvCasterStore.h"/>
     <ClInclude Include="..\..\Source\Models\Seeds.h"/>
     <ClInclude Include="..\..\Source\Trace\Trace.h"/>
@@ -1182,6 +1184,7 @@
     <ClInclude Include="..\..\Source\Trace\TraceChat.h"/>
     <ClInclude Include="..\..\Source\Trace\TraceConfig.h"/>
     <ClInclude Include="..\..\Source\Trace\TraceControls.h"/>
+    <ClInclude Include="..\..\Source\Trace\TraceGst.h"/>
     <ClInclude Include="..\..\Source\Trace\TraceGstreamer.h"/>
     <ClInclude Include="..\..\Source\Trace\TraceIrcClient.h"/>
     <ClInclude Include="..\..\Source\Trace\TraceMain.h"/>

@@ -25,6 +25,9 @@ public:
   static const String FILTER_CHARS ;
   static const String REPLACE_CHARS ;
 
+  // environment vars
+  static const String RTMP_DEST_ENV ;
+
   // timers
   static const int        N_TIMERS     = 3 ; // ASSERT: n timers defined below
   static const int        TIMER_HI_ID  = 1 ; static const int TIMER_HI_IVL  = 125 ;

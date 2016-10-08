@@ -20,6 +20,9 @@ const String APP::VALID_NICK_CHARS = ALPHANUMERIC + "_-@#&[]" ;
 const String APP::FILTER_CHARS     = "-_.:/?=@#&[] " ;
 const String APP::REPLACE_CHARS    = String::repeatedString("-" , FILTER_CHARS.length()) ;
 
+// environment vars
+const String APP::RTMP_DEST_ENV = "AVCASTER_RTMP_DEST" ;
+
 // timers
 int timer_ids[]  = { APP::TIMER_HI_ID  , APP::TIMER_MED_ID  , APP::TIMER_LO_ID  } ;
 int timer_ivls[] = { APP::TIMER_HI_IVL , APP::TIMER_MED_IVL , APP::TIMER_LO_IVL } ;
