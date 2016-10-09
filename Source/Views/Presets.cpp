@@ -131,7 +131,7 @@ void Presets::resized()
     deletePresetButton->setBounds (388, 36, 96, 24);
     presetLabel->setBounds (500, 36, 48, 24);
     presetsCombo->setBounds (560, 36, 128, 24);
-    configButton->setBounds (696, 36, 24, 24);
+    configButton->setBounds (702, 36, 24, 24);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
 }
@@ -340,7 +340,7 @@ BEGIN_JUCER_METADATA
             virtualName="" explicitFocusOrder="3" pos="560 36 128 24" editable="1"
             layout="33" items="" textWhenNonSelected="" textWhenNoItems="(no choices)"/>
   <IMAGEBUTTON name="configButton" id="19b48645d13bf310" memberName="configButton"
-               virtualName="" explicitFocusOrder="4" pos="696 36 24 24" buttonText="configButton"
+               virtualName="" explicitFocusOrder="4" pos="702 36 24 24" buttonText="configButton"
                connectedEdges="0" needsCallback="1" radioGroupId="0" keepProportions="1"
                resourceNormal="BinaryData::config_png" opacityNormal="1" colourNormal="0"
                resourceOver="BinaryData::confighover_png" opacityOver="1" colourOver="0"

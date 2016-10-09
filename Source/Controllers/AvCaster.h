@@ -47,6 +47,9 @@ public:
   static void SendChat   (String chat_message) ;
 #endif // DISABLE_CHAT
 
+  // callbacks and event handlers
+  static void HandleReconfigured() ;
+
   // getters/setters
   static StringArray    VersionMsg          () ;
   static String         GetVersionString    () ;
@@ -85,6 +88,7 @@ private:
   static void HandleTimer        (int timer_id) ;
   static void UpdateStatusGUI    () ;
   static void HandleConfigChanged(const Identifier& a_key) ;
+  static void EnableControls     (bool should_enable) ;
   static void RefreshGui         () ;
   static void UpdateStatus       () ;
 

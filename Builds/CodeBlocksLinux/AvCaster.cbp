@@ -279,6 +279,10 @@
       <Option compile="0"/>
       <Option link="0"/>
     </Unit>
+    <Unit filename="../../Source/Views/Spinner.h">
+      <Option compile="0"/>
+      <Option link="0"/>
+    </Unit>
     <Unit filename="../../Source/Views/Statusbar.h">
       <Option compile="0"/>
       <Option link="0"/>
@@ -311,6 +315,7 @@
     <Unit filename="../../Source/Views/MainContent.cpp"/>
     <Unit filename="../../Source/Views/Presets.cpp"/>
     <Unit filename="../../Source/Views/Preview.cpp"/>
+    <Unit filename="../../Source/Views/Spinner.cpp"/>
     <Unit filename="../../Source/Views/Statusbar.cpp"/>
     <Unit filename="../../Source/Main.cpp"/>
     <Unit filename="../../JuceLibraryCode/modules/juce_core/containers/juce_AbstractFifo.cpp">

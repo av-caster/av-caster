@@ -22,8 +22,11 @@ const Colour GUI::TEXT_INVALID_BG_COLOR = Colour(0xFF200000) ;
 // MainWindow
 const int    GUI::BORDERS_W       = 2 ;
 const int    GUI::TITLEBAR_H      = 24 ;
+const int    GUI::CONTROLS_H      = 76 ;
+const int    GUI::STATUSBAR_H     = 24 ;
 const int    GUI::WINDOW_W        = 760 - BORDERS_W ;              // jucer 758
 const int    GUI::WINDOW_H        = 788 - BORDERS_W - TITLEBAR_H ; // jucer 762
+const int    GUI::CONTENT_H       = WINDOW_H - CONTROLS_H - STATUSBAR_H ;
 const int    GUI::TITLEBAR_BTNS   = DocumentWindow::minimiseButton | DocumentWindow::closeButton ;
 const String GUI::IDLE_TITLE_TEXT = "(Idle)" ;
 const String GUI::FILE_TITLE_TEXT = "(Recording)" ;
@@ -117,6 +120,16 @@ const int    GUI::MAX_RES_N_CHARS        = 4 ;
 const int    GUI::MAX_MOTD_LEN           = 2048 ;
 const int    GUI::MAX_FILENAME_LEN       = 255 ;
 const int    GUI::MAX_PORT_N_CHARS       = 5 ;
+
+// Spinner
+const int            GUI::SPINNER_W          = 128 ;
+const int            GUI::SPINNER_X          = (WINDOW_W  / 2) - (SPINNER_W / 2) ;
+const int            GUI::SPINNER_Y          = (CONTENT_H / 2) - (SPINNER_W / 2) ;
+const int            GUI::SPINNER_MASK_W     = SPINNER_W * 3 ;
+const int            GUI::SPINNER_MASK_X     = SPINNER_X - SPINNER_W - SPINNER_W ;
+const Rectangle<int> GUI::SPINNER_MASK_BEGIN = Rectangle<int>(SPINNER_MASK_X , SPINNER_Y , SPINNER_MASK_W , SPINNER_W) ;
+const Rectangle<int> GUI::SPINNER_MASK_END   = Rectangle<int>(SPINNER_X      , SPINNER_Y , SPINNER_MASK_W , SPINNER_W) ;
+const int            GUI::SPINNER_MASK_DUR   = 5000 ;
 
 // StatusBar
 const String GUI::INIT_STATUS_TEXT  = "Initializing" ;

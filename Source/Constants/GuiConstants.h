@@ -31,8 +31,11 @@ public:
   // MainWindow
   static const int    BORDERS_W ;
   static const int    TITLEBAR_H ;
+  static const int    CONTROLS_H ;
+  static const int    STATUSBAR_H ;
   static const int    WINDOW_W ;
   static const int    WINDOW_H ;
+  static const int    CONTENT_H ;
   static const int    TITLEBAR_BTNS ;
   static const String IDLE_TITLE_TEXT ;
   static const String FILE_TITLE_TEXT ;
@@ -123,6 +126,16 @@ public:
   static const int    MAX_MOTD_LEN ;
   static const int    MAX_FILENAME_LEN ;
   static const int    MAX_PORT_N_CHARS ;
+
+  // Spinner
+  static const int            SPINNER_W ;
+  static const int            SPINNER_X ;
+  static const int            SPINNER_Y ;
+  static const int            SPINNER_MASK_W ;
+  static const int            SPINNER_MASK_X ;
+  static const Rectangle<int> SPINNER_MASK_BEGIN ;
+  static const Rectangle<int> SPINNER_MASK_END ;
+  static const int            SPINNER_MASK_DUR ;
 
   // StatusBar
   static const String INIT_STATUS_TEXT ;

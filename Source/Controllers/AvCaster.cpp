@@ -61,6 +61,12 @@ void AvCaster::SendChat(String chat_message)
 }
 #endif // DISABLE_CHAT
 
+void AvCaster::HandleReconfigured()
+{
+  // store back any reversions made by Gstreamer::Reconfigure() and refresh GUI
+  EnableControls(true) ; StorePreset(GetPresetName()) ; RefreshGui() ;
+}
+
 StringArray AvCaster::VersionMsg()
 {
   StringArray version_msg = StringArray(GetVersionString()) ;
@@ -222,6 +228,8 @@ DEBUG_TRACE_INIT_PHASE_7
 
 DEBUG_TRACE_INIT_PHASE_8
 
+  EnableControls(false) ; Gui->spinner->toFront(true) ;
+
   return IsInitialized ;
 }
 
@@ -278,8 +286,8 @@ void AvCaster::HandleConfigChanged(const Identifier& a_key)
 
   bool is_media_toggle          = Store->isMediaToggleKey (a_key) ;
   bool is_preset_control        = Store->isPresetConfigKey(a_key) ;
-  bool is_stream_active         = bool(Store->config[CONFIG::OUTPUT_ID]) ;
-  bool is_config_pending        = AvCaster::GetIsConfigPending() ;
+  bool is_stream_active         = bool(Store->config[CONFIG::OUTPUT_ID    ]) ;
+  bool is_config_pending        = bool(Store->root  [CONFIG::IS_PENDING_ID]) ;
   bool should_stop_stream       = is_preset_control && is_stream_active ;
   bool should_reconfigure_media = is_preset_control || is_media_toggle ;
   bool should_reconfigure_chat  = is_preset_control ;
@@ -287,8 +295,9 @@ void AvCaster::HandleConfigChanged(const Identifier& a_key)
 
 DEBUG_TRACE_HANDLE_CONFIG_CHANGE
 
-  if (should_stop_stream       ) Store->deactivateControl(CONFIG::OUTPUT_ID) ;
-  if (!should_reconfigure_media) return ;
+  if (should_stop_stream      ) Store->deactivateControl(CONFIG::OUTPUT_ID) ;
+  if (should_reconfigure_media) EnableControls(false) ;
+  else                          return ;
 
 #ifndef DISABLE_CHAT
   // reconfigure Irc networks
@@ -297,9 +306,18 @@ DEBUG_TRACE_HANDLE_CONFIG_CHANGE
 
   // reconfigure Gstreamer elements
   Gstreamer::Reconfigure(a_key) ;
+}
 
-  // store back changes and refresh GUI
-  StorePreset(GetPresetName()) ; RefreshGui() ;
+void AvCaster::EnableControls(bool should_enable)
+{
+  bool is_config_pending   = bool(Store->root  [CONFIG::IS_PENDING_ID]) ;
+  bool is_preview_on       = bool(Store->config[CONFIG::PREVIEW_ID   ]) ;
+  bool should_show_spinner = !should_enable && !is_config_pending ;
+
+  Gui->controls->setEnabled(should_enable) ;
+  Gui->presets ->setEnabled(should_enable) ;
+  Gui->config  ->setEnabled(should_enable) ;
+  if (should_show_spinner) Gui->spinner->toFront(true) ; else Gui->spinner->toBack() ;
 }
 
 void AvCaster::RefreshGui()

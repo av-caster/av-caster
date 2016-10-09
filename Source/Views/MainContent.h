@@ -28,6 +28,7 @@
 #include "Controls.h"
 #include "Preview.h"
 #include "Presets.h"
+#include "Spinner.h"
 #include "Statusbar.h"
 
 //[/Headers]
@@ -74,8 +75,8 @@ private:
 
     //[/UserMethods]
 
-    void paint (Graphics& g);
-    void resized();
+    void paint (Graphics& g) override;
+    void resized() override;
 
 
 
@@ -96,6 +97,7 @@ private:
     ScopedPointer<Preview> preview;
     ScopedPointer<Presets> presets;
     ScopedPointer<Config> config;
+    ScopedPointer<Spinner> spinner;
     ScopedPointer<Statusbar> statusbar;
 
 

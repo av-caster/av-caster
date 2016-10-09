@@ -39,6 +39,9 @@ bool          Alert::IsAlertModal = false ; // Display() , OnModalDismissed()
 //==============================================================================
 MainContent::MainContent ()
 {
+    //[Constructor_pre] You can add your own custom stuff here..
+    //[/Constructor_pre]
+
     addAndMakeVisible (background = new Background());
     background->setName ("background");
 
@@ -56,6 +59,9 @@ MainContent::MainContent ()
 
     addAndMakeVisible (config = new Config (this));
     config->setName ("config");
+
+    addAndMakeVisible (spinner = new Spinner());
+    spinner->setName ("spinner");
 
     addAndMakeVisible (statusbar = new Statusbar());
     statusbar->setName ("statusbar");
@@ -94,6 +100,7 @@ MainContent::~MainContent()
     preview = nullptr;
     presets = nullptr;
     config = nullptr;
+    spinner = nullptr;
     statusbar = nullptr;
 
 
@@ -124,6 +131,7 @@ void MainContent::resized()
     preview->setBounds (0, 76, getWidth() - 0, getHeight() - 100);
     presets->setBounds (0, 0, getWidth() - 0, 76);
     config->setBounds (0, 76, getWidth() - 0, getHeight() - 100);
+    spinner->setBounds (0, 76, getWidth() - 0, getHeight() - 100);
     statusbar->setBounds (0, getHeight() - 24, getWidth() - 0, 24);
     //[UserResized] Add your own custom resize handling here..
     //[/UserResized]
@@ -296,9 +304,9 @@ void Alert::OnModalDismissed(int /*result*/ , int /*unused*/) { IsAlertModal = f
 
 //==============================================================================
 #if 0
-/*  -- Introjucer information section --
+/*  -- Projucer information section --
 
-    This is where the Introjucer stores the metadata that describe this GUI layout, so
+    This is where the Projucer stores the metadata that describe this GUI layout, so
     make changes in here at your peril!
 
 BEGIN_JUCER_METADATA
@@ -321,6 +329,8 @@ BEGIN_JUCER_METADATA
                     explicitFocusOrder="0" pos="0 0 0M 76" class="Presets" params="this"/>
   <GENERICCOMPONENT name="config" id="4f3cab5613666ef6" memberName="config" virtualName=""
                     explicitFocusOrder="0" pos="0 76 0M 100M" class="Config" params="this"/>
+  <GENERICCOMPONENT name="spinner" id="7b51078cb3939cd3" memberName="spinner" virtualName=""
+                    explicitFocusOrder="0" pos="0 76 0M 100M" class="Spinner" params=""/>
   <GENERICCOMPONENT name="statusbar" id="2dc0514b582b96cb" memberName="statusbar"
                     virtualName="" explicitFocusOrder="0" pos="0 0Rr 0M 24" class="Statusbar"
                     params=""/>

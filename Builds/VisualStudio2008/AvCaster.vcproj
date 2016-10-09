@@ -229,6 +229,7 @@
           <File RelativePath="..\..\Source\Views\MainContent.h"/>
           <File RelativePath="..\..\Source\Views\Presets.h"/>
           <File RelativePath="..\..\Source\Views\Preview.h"/>
+          <File RelativePath="..\..\Source\Views\Spinner.h"/>
           <File RelativePath="..\..\Source\Views\Statusbar.h"/>
         </Filter>
       </Filter>
@@ -272,6 +273,7 @@
           <File RelativePath="..\..\Source\Views\MainContent.cpp"/>
           <File RelativePath="..\..\Source\Views\Presets.cpp"/>
           <File RelativePath="..\..\Source\Views\Preview.cpp"/>
+          <File RelativePath="..\..\Source\Views\Spinner.cpp"/>
           <File RelativePath="..\..\Source\Views\Statusbar.cpp"/>
         </Filter>
         <File RelativePath="..\..\Source\Main.cpp"/>

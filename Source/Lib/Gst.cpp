@@ -37,9 +37,15 @@ Gst::~Gst() { DestroyElement(this->pipeline) ; }
 
 bool Gst::setState(GstState next_state) { return SetState(this->pipeline , next_state) ; }
 
-bool Gst::setMessageHandlers(void (*on_error_cb)(GstMessage* message))
+bool Gst::setMessageHandlers(void (*on_playing_cb)(GstMessage* message) ,
+                             void (*on_error_cb  )(GstMessage* message) )
 {
-  if (InitMessageHandler(this)) this->handleErrorMessage = on_error_cb ;
+  if (!InitMessageHandler(this)) return false ;
+
+  this->handlePlayingMessage = on_playing_cb ;
+  this->handleErrorMessage   = on_error_cb ;
+
+  return true ;
 }
 
 bool Gst::addBin(GstElement* a_bin)
@@ -255,9 +261,9 @@ void Gst::ConfigureQueue(GstElement* a_queue , guint max_bytes , guint64 max_tim
 {
 DEBUG_TRACE_CONFIGURE_QUEUE
 
-  g_object_set(G_OBJECT(a_queue) , "max-size-bytes"   , max_bytes   , nullptr) ;
-  g_object_set(G_OBJECT(a_queue) , "max-size-time"    , max_time    , nullptr) ;
-  g_object_set(G_OBJECT(a_queue) , "max-size-buffers" , max_buffers , nullptr) ;
+  if (~max_bytes  ) g_object_set(G_OBJECT(a_queue) , "max-size-bytes"   , max_bytes   , nullptr) ;
+  if (~max_time   ) g_object_set(G_OBJECT(a_queue) , "max-size-time"    , max_time    , nullptr) ;
+  if (~max_buffers) g_object_set(G_OBJECT(a_queue) , "max-size-buffers" , max_buffers , nullptr) ;
 }
 
 void Gst::ConfigureScreenSource(GstElement* a_screen_source , guint capture_w , guint capture_h)
@@ -323,19 +329,26 @@ DEBUG_TRACE_CONFIGURE_COMPOSITOR_SINK
   g_object_set(G_OBJECT(sinkpad) , "zorder" , z , nullptr) ;
 }
 
-bool Gst::ConfigureVideoSink(GstElement* a_video_sink , guintptr x_window_handle ,
-                             gint        preview_x    , gint     preview_y       ,
-                             gint        preview_w    , gint     preview_h       )
+bool Gst::SetVideoWindow(GstElement* a_video_sink , guintptr x_window_handle)
 {
+  GstVideoOverlay* overlay = GST_VIDEO_OVERLAY(a_video_sink) ;
+
+//   g_object_set(a_video_sink , "async-handling" , TRUE , nullptr) ;
+  gst_video_overlay_set_window_handle(overlay , x_window_handle) ;
+}
+
+bool Gst::ConfigureVideoSink(GstElement* a_video_sink , gint x , gint y , gint w , gint h)
+{
+  GstVideoOverlay* overlay = GST_VIDEO_OVERLAY(a_video_sink) ;
+
+  bool is_err = !gst_video_overlay_set_render_rectangle(overlay , x , y , w , h) ;
+
+  if (!is_err) gst_video_overlay_expose(overlay) ;
+  else         SetVideoWindow(a_video_sink , 0) ;
+
 DEBUG_TRACE_CONFIGURE_PREVIEW
 
-  gst_video_overlay_set_window_handle(GST_VIDEO_OVERLAY(a_video_sink) , x_window_handle) ;
-//   gst_video_overlay_expose(GST_VIDEO_OVERLAY(a_video_sink)) ;
-//   g_object_set(a_video_sink , "async-handling" , TRUE , nullptr) ;
-
-  return gst_video_overlay_set_render_rectangle(GST_VIDEO_OVERLAY(a_video_sink) ,
-                                                preview_x , preview_y           ,
-                                                preview_w , preview_h           ) ;
+  return !is_err ;
 }
 
 void Gst::ConfigureTestAudio(GstElement* a_test_source)
@@ -516,12 +529,15 @@ GstBusSyncReply Gst::HandleMessage(GstBus* message_bus , GstMessage* message , g
 {
   switch (GST_MESSAGE_TYPE(message))
   {
-    case GST_MESSAGE_ERROR:         ((Gst*)a_gst)->handleErrorMessage(message) ; break ;
-    case GST_MESSAGE_EOS:           DEBUG_TRACE_MESSAGE_EOS                      break ;
-    case GST_MESSAGE_STATE_CHANGED: DEBUG_TRACE_MESSAGE_STATE_CHANGED            break ;
-    case GST_MESSAGE_STREAM_STATUS: DEBUG_TRACE_DUMP_MESSAGE_STRUCT              break ;
-    default:                        DEBUG_TRACE_MESSAGE_UNHANDLED                break ;
-/* GST_MESSAGE_TYPE types
+    case GST_MESSAGE_ASYNC_DONE:    ((Gst*)a_gst)->handlePlayingMessage(message) ; break ;
+    case GST_MESSAGE_ERROR:         ((Gst*)a_gst)->handleErrorMessage  (message) ; break ;
+    case GST_MESSAGE_WARNING:       DEBUG_TRACE_MESSAGE_WARNING                    break ;
+    case GST_MESSAGE_EOS:           DEBUG_TRACE_MESSAGE_EOS                        break ;
+    case GST_MESSAGE_STATE_CHANGED: /*DEBUG_TRACE_MESSAGE_STATE_CHANGED*/              break ;
+    case GST_MESSAGE_STREAM_STATUS: /*DEBUG_TRACE_DUMP_MESSAGE_STRUCT*/                break ;
+    default:                        DEBUG_TRACE_MESSAGE_UNHANDLED                  break ;
+
+/* GST_MESSAGE_TYPE types:
 GST_MESSAGE_UNKNOWN           = 0,
 GST_MESSAGE_EOS               = (1 << 0),
 GST_MESSAGE_ERROR             = (1 << 1),
@@ -545,10 +561,20 @@ GST_MESSAGE_DURATION          = (1 << 18),
 GST_MESSAGE_LATENCY           = (1 << 19),
 GST_MESSAGE_ASYNC_START       = (1 << 20),
 GST_MESSAGE_ASYNC_DONE        = (1 << 21),
+GST_MESSAGE_REQUEST_STATE
+GST_MESSAGE_STEP_START
+GST_MESSAGE_QOS
+GST_MESSAGE_PROGRESS
+GST_MESSAGE_TOC
+GST_MESSAGE_RESET_TIME
+GST_MESSAGE_STREAM_START
+GST_MESSAGE_NEED_CONTEXT
+GST_MESSAGE_HAVE_CONTEXT
 GST_MESSAGE_ANY               = ~0
 */
   }
-/*  The result values for a GstBusSyncHandler.
+
+/* The result values for a GstBusSyncHandler:
 GST_BUS_DROP   drop the message
 GST_BUS_PASS   pass the message to the async queue
 GST_BUS_ASYNC  pass message to async queue, continue if message is handled

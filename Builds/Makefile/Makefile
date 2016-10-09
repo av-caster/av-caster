@@ -95,6 +95,7 @@ OBJECTS := \
   $(JUCE_OBJDIR)/MainContent_91787020.o \
   $(JUCE_OBJDIR)/Presets_30a0e894.o \
   $(JUCE_OBJDIR)/Preview_227d08e8.o \
+  $(JUCE_OBJDIR)/Spinner_12d946b9.o \
   $(JUCE_OBJDIR)/Statusbar_b88450c1.o \
   $(JUCE_OBJDIR)/Main_90ebc5c2.o \
   $(JUCE_OBJDIR)/BinaryData_ce4232d4.o \
@@ -271,6 +272,11 @@ $(JUCE_OBJDIR)/Presets_30a0e894.o: ../../Source/Views/Presets.cpp
 $(JUCE_OBJDIR)/Preview_227d08e8.o: ../../Source/Views/Preview.cpp
 	-@mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling Preview.cpp ($(CONFIG))"
+	@$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
+
+$(JUCE_OBJDIR)/Spinner_12d946b9.o: ../../Source/Views/Spinner.cpp
+	-@mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling Spinner.cpp ($(CONFIG))"
 	@$(CXX) $(JUCE_CXXFLAGS) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/Statusbar_b88450c1.o: ../../Source/Views/Statusbar.cpp

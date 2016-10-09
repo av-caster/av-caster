@@ -64,9 +64,10 @@ private:
   static GstElement* ConfigureOutputBin    () ;
 
   // state
-  static String VersionMsg         () ;
-  static bool   IsSufficientVersion() ;
-  static void   HandleErrorMessage (GstMessage* message) ;
+  static String VersionMsg          () ;
+  static bool   IsSufficientVersion () ;
+  static void   HandlePlayingMessage(GstMessage* /*message*/) ;
+  static void   HandleErrorMessage  (GstMessage* message) ;
 
   // string helpers
   static String MakeFileName(String destination , String file_ext) ;

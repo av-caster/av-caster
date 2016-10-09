@@ -45,6 +45,10 @@
 
 /* bus messages */
 
+#define DEBUG_TRACE_MESSAGE_WARNING                                                     \
+  GError* error ; gchar* debug ; gst_message_parse_warning(message , &error , &debug) ; \
+  Trace::TraceWarning(String(error->message)) ; g_error_free(error) ; g_free(debug)     ;
+
 #define DEBUG_TRACE_MESSAGE_EOS Trace::TraceMediaVb("GST_MESSAGE_EOS") ;
 
 #define DEBUG_TRACE_MESSAGE_STATE_CHANGED Trace::TraceMediaVb("GST_MESSAGE_STATE_CHANGED") ;
@@ -64,8 +68,11 @@ gboolean DumpMessage(GQuark field_id , const GValue* gvalue , gpointer user_data
 #  define DEBUG_TRACE_DUMP_MESSAGE_STRUCT                             \
   if (Trace::MediaVbEnabled) MessageStructEach(message , DumpMessage) ;
 
-#  define DEBUG_TRACE_MESSAGE_UNHANDLED                                                         \
-  Trace::TraceMediaVb("got unhandled message '" + String(GST_MESSAGE_TYPE_NAME(message)) + "'") ;
+#  define DEBUG_TRACE_MESSAGE_UNHANDLED                                         \
+  String message_type    = String(GST_MESSAGE_TYPE_NAME(message)) ;             \
+  String supressed_types = "qos" ;                                              \
+  if (!StringArray::fromTokens(supressed_types , false).contains(message_type)) \
+    Trace::TraceMediaVb("got unhandled message '" + message_type + "'")         ;
 
 
 /* element creation and destruction */
@@ -183,10 +190,11 @@ gboolean DumpMessage(GQuark field_id , const GValue* gvalue , gpointer user_data
 #  define DEBUG_TRACE_CONFIGURE_COMPOSITOR_SINK                     \
   Trace::TraceMedia("configuring '" + Gst::GetPadId(sinkpad) + "'") ;
 
-#  define DEBUG_TRACE_CONFIGURE_PREVIEW                                        \
-  Trace::TraceMedia("configuring '" + Gst::GetElementId(a_video_sink) + "' " + \
-                    String(preview_x) + "@" + String(preview_y) + " "        + \
-                    String(preview_w) + "x" + String(preview_h)              ) ;
+#  define DEBUG_TRACE_CONFIGURE_PREVIEW                                          \
+  Trace::TraceMedia("configuring '" + Gst::GetElementId(a_video_sink) + "' " +   \
+                    String(x) + "@" + String(y) + " "                        +   \
+                    String(w) + "x" + String(h)                              ) ; \
+  if (is_err) Trace::TraceError(GUI::GST_XWIN_ERROR_MSG)                         ;
 
 #  define DEBUG_TRACE_CONFIGURE_TEST_AUDIO                                    \
   Trace::TraceMedia("configuring '" + Gst::GetElementId(a_test_source) + "'") ;

@@ -17,15 +17,12 @@
 \*/
 
 
-#ifndef _CONFIG_IMAGE_H_
-#define _CONFIG_IMAGE_H_
+#ifndef _SPINNER_H_
+#define _SPINNER_H_
 
 //[Headers]     -- You can add your own extra header files here --
 
 #include "JuceHeader.h"
-
-
-class MainContent ;
 
 //[/Headers]
 
@@ -34,47 +31,49 @@ class MainContent ;
 //==============================================================================
 /**
                                                                     //[Comments]
-  ConfigImage is the interstitial image configuration GUI for the AvCaster application.
-  It has it controls for setting the per-preset interstitial image parameters.
+    An auto-generated component, created by the Projucer.
+
+    Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class ConfigImage  : public Component
+class Spinner  : public Component
 {
 public:
     //==============================================================================
-    ConfigImage ();
-    ~ConfigImage();
+    Spinner ();
+    ~Spinner();
 
     //==============================================================================
     //[UserMethods]     -- You can add your own custom methods in this section.
+
+private:
+
+  void broughtToFront() override ;
+
     //[/UserMethods]
 
-    void paint (Graphics& g);
-    void resized();
+    void paint (Graphics& g) override;
+    void resized() override;
 
 
 
 private:
     //[UserVariables]   -- You can add your own custom variables in this section.
 
-  friend class Config ;
-
-
-  MainContent* mainContent ;
+  ComponentAnimator&           animator ;
+  ScopedPointer<DrawableImage> mask ;
 
     //[/UserVariables]
 
     //==============================================================================
-    ScopedPointer<Label> locationLabel;
-    ScopedPointer<TextEditor> interstitialText;
-    ScopedPointer<TextButton> browseButton;
+    ScopedPointer<Drawable> drawable1;
 
 
     //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ConfigImage)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Spinner)
 };
 
 //[EndFile] You can add extra defines here...
 //[/EndFile]
 
-#endif // _CONFIG_IMAGE_H_
+#endif   // _SPINNER_H_

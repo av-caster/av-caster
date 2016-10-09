@@ -69,6 +69,7 @@
         <FILE id="pAvXb6" name="MainContent.h" compile="0" resource="0" file="Source/Views/MainContent.h"/>
         <FILE id="ke3zGo" name="Presets.h" compile="0" resource="0" file="Source/Views/Presets.h"/>
         <FILE id="KL3xzz" name="Preview.h" compile="0" resource="0" file="Source/Views/Preview.h"/>
+        <FILE id="OeUKy8" name="Spinner.h" compile="0" resource="0" file="/mnt/data/code/av-caster/Source/Views/Spinner.h"/>
         <FILE id="VjCVUp" name="Statusbar.h" compile="0" resource="0" file="Source/Views/Statusbar.h"/>
       </GROUP>
     </GROUP>
@@ -122,6 +123,7 @@
         <FILE id="TWIrmh" name="MainContent.cpp" compile="1" resource="0" file="Source/Views/MainContent.cpp"/>
         <FILE id="GjcK36" name="Presets.cpp" compile="1" resource="0" file="Source/Views/Presets.cpp"/>
         <FILE id="McNOOA" name="Preview.cpp" compile="1" resource="0" file="Source/Views/Preview.cpp"/>
+        <FILE id="tlIbCz" name="Spinner.cpp" compile="1" resource="0" file="/mnt/data/code/av-caster/Source/Views/Spinner.cpp"/>
         <FILE id="CESgWr" name="Statusbar.cpp" compile="1" resource="0" file="Source/Views/Statusbar.cpp"/>
       </GROUP>
       <FILE id="CQoHWx" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>

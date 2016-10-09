@@ -157,6 +157,7 @@
     <ClCompile Include="..\..\Source\Views\MainContent.cpp"/>
     <ClCompile Include="..\..\Source\Views\Presets.cpp"/>
     <ClCompile Include="..\..\Source\Views\Preview.cpp"/>
+    <ClCompile Include="..\..\Source\Views\Spinner.cpp"/>
     <ClCompile Include="..\..\Source\Views\Statusbar.cpp"/>
     <ClCompile Include="..\..\Source\Main.cpp"/>
     <ClCompile Include="..\..\JuceLibraryCode\modules\juce_core\containers\juce_AbstractFifo.cpp">
@@ -1204,6 +1205,7 @@
     <ClInclude Include="..\..\Source\Views\MainContent.h"/>
     <ClInclude Include="..\..\Source\Views\Presets.h"/>
     <ClInclude Include="..\..\Source\Views\Preview.h"/>
+    <ClInclude Include="..\..\Source\Views\Spinner.h"/>
     <ClInclude Include="..\..\Source\Views\Statusbar.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\containers\juce_AbstractFifo.h"/>
     <ClInclude Include="..\..\JuceLibraryCode\modules\juce_core\containers\juce_Array.h"/>

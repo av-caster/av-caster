@@ -99,9 +99,10 @@ DEBUG_DUMP_MEDIA_SWITCHES
 DEBUG_TRACE_GST_INIT_PHASE_1
 
   // initialize gStreamer
-  GError** error ;
-  if (!Gst::Initialize(nullptr , nullptr , error))
-  { AvCaster::Error(GUI::GST_INIT_ERROR_MSG + String((*error)->message)) ; return false ; }
+  GError* error ;
+  if (!Gst::Initialize(nullptr , nullptr , &error))
+  { AvCaster::Error(GUI::GST_INIT_ERROR_MSG + String(error->message)) ; return false ; }
+  else g_error_free(error) ;
 
 DEBUG_TRACE_GST_INIT_PHASE_2
 
@@ -118,7 +119,7 @@ DEBUG_TRACE_GST_INIT_PHASE_2
       (is_media_enabled   && !(OutputBin     = Gst::NewBin(GST::OUTPUT_BIN_ID    )))  )
   { AvCaster::Error(GUI::GST_PIPELINE_INST_ERROR_MSG) ; return false ; }
 
-  if (!Pipeline->setMessageHandlers(HandleErrorMessage))
+  if (!Pipeline->setMessageHandlers(HandlePlayingMessage , HandleErrorMessage))
   { AvCaster::Error(GUI::GST_BUS_INST_ERROR_MSG) ; return false ; }
 
 DEBUG_TRACE_GST_INIT_PHASE_3
@@ -280,9 +281,6 @@ DEBUG_TRACE_BUILD_CAMERA_BIN
 bool Gstreamer::BuildTextBin()
 {
 DEBUG_TRACE_BUILD_TEXT_BIN
-#ifdef TEXT_BIN_NYI
-  return false ;
-#endif // TEXT_BIN_NYI
 
   GstElement *filesrc , *subparser , *source , *converter , *queue ;
 
@@ -332,20 +330,19 @@ DEBUG_TRACE_CONFIGURE_TEXT_BIN
 bool Gstreamer::BuildImageBin()
 {
 DEBUG_TRACE_BUILD_IMAGE_BIN
-//#define STATIC_IMAGE
-#  ifdef STATIC_IMAGE
-/*
+// #define STATIC_IMAGE
+#ifdef STATIC_IMAGE
+
   GstElement *source  , *decoder        , *converter ,
              *scaler  , *scaler_filter  ,
-             *freezer , *freezer_filter , *queue ;
-  GstCaps    *scaler_caps , *freezer_caps ;
+             *freezer , *freezer_filter , *queue     ;
 
   bool   is_enabled       = bool(ConfigStore[CONFIG::IMAGE_ID      ]) ;
   int    interstitial_w   = int (ConfigStore[CONFIG::SCREENCAP_W_ID]) ;
   int    interstitial_h   = int (ConfigStore[CONFIG::SCREENCAP_H_ID]) ;
   int    framerate_idx    = int (ConfigStore[CONFIG::FRAMERATE_ID  ]) ;
-  int    framerate        = CONFIG::FRAMERATES[framerate_idx].getIntValue() ;
-  String image_filename   = "/home/bill/img/tech-diff.png" ;
+  int    framerate        = CONFIG::FrameRates()[framerate_idx].getIntValue() ;
+  String image_filename   = "/home/bill/img/tech-diff/tech-diff.png" ;
   String scaler_caps_str  = String("video/x-raw, ")                                  +
                             "width=(int)"          + String(interstitial_w) + ", "   +
                             "height=(int)"         + String(interstitial_h) + ", "   +
@@ -369,18 +366,17 @@ DEBUG_TRACE_BUILD_IMAGE_BIN
       !(scaler_filter  = Gst::NewElement("capsfilter"   , "interstitial-scaler-caps" )) ||
       !(freezer        = Gst::NewElement("imagefreeze"  , "interstitial-freezer"     )) ||
       !(freezer_filter = Gst::NewElement("capsfilter"   , "interstitial-freezer-caps")) ||
-      !(queue          = Gst::NewElement("queue"        , "interstitial-queue"       )) ||
-      !(scaler_caps    = Gst::NewCaps   (scaler_caps_str)                             ) ||
-      !(freezer_caps   = Gst::NewCaps   (freezer_caps_str)                            )  )
+      !(queue          = Gst::NewElement("queue"        , "interstitial-queue"       ))  )
   { AvCaster::Error(GUI::IMAGE_INIT_ERROR_MSG) ; return false ; }
 
 DEBUG_TRACE_CONFIGURE_IMAGE_BIN
 
   // configure elements
-  Gst::ConfigureFile (source         , image_filename        ) ;
-  Gst::ConfigureCaps (scaler_filter  , scaler_caps           ) ;
-  Gst::ConfigureCaps (freezer_filter , freezer_caps          ) ;
-  Gst::ConfigureQueue(queue          , 0              , 0 , 0) ;
+  Gst::ConfigureFileSource(source         , image_filename          ) ;
+  Gst::ConfigureCaps      (scaler_filter  , scaler_caps_str         ) ;
+  Gst::ConfigureCaps      (freezer_filter , freezer_caps_str        ) ;
+//   Gst::ConfigureQueue     (queue          , 0                , 0 , 0) ;
+  Gst::ConfigureQueue     (queue          , -1               , -1 , -1) ;
 
   // link elements
   if (!Gst::AddElement    (ImageBin , source        )              ||
@@ -400,8 +396,9 @@ DEBUG_TRACE_CONFIGURE_IMAGE_BIN
       !Gst::LinkElements  (freezer_filter , queue         )        ||
       !Gst::NewGhostSrcPad(ImageBin , queue , "interstitial-source"))
   { AvCaster::Error(GUI::IMAGE_LINK_ERROR_MSG) ; return false ; }
-*/
-#  else // STATIC_IMAGE
+
+#endif // STATIC_IMAGE
+#ifndef STATIC_IMAGE
 
   GstElement *source , *capsfilter , *converter , *queue ;
 
@@ -437,7 +434,7 @@ DEBUG_TRACE_CONFIGURE_IMAGE_BIN
       !Gst::NewGhostSrcPad(ImageBin   , queue , "image-source"))
   { AvCaster::Error(GUI::IMAGE_LINK_ERROR_MSG) ; return false ; }
 
-#  endif // STATIC_IMAGE
+#endif // STATIC_IMAGE
 
   return true ;
 }
@@ -546,6 +543,7 @@ DEBUG_TRACE_BUILD_PREVIEW_BIN
 
   // configure elements
   Gst::ConfigureQueue(PreviewQueue , 0 , 0 , 0) ;
+  Gst::SetVideoWindow(PreviewRealSink , PreviewXwin) ;
   initial_sink = ConfigurePreviewBin() ;
 
   // link elements
@@ -716,8 +714,7 @@ bool Gstreamer::Reconfigure(const Identifier& config_key)
   bool configure_image      =  config_key == CONFIG::IMAGE_ID       || configure_all ;
   bool configure_compositor =  configure_screen || configure_camera ||
                                configure_text   || configure_image  || configure_all ;
-  bool configure_preview    =  config_key == CONFIG::PREVIEW_ID     ||
-                               config_key == CONFIG::IS_PENDING_ID  || configure_all ;
+  bool configure_preview    =  true ;
   bool configure_audio      =  config_key == CONFIG::AUDIO_ID       || configure_all ;
   bool configure_output     =  config_key == CONFIG::OUTPUT_ID      || configure_all ;
 
@@ -825,9 +822,7 @@ bool Gstreamer::ConfigureCompositorBin()
 {
   bool       is_screen_active = bool(ConfigStore[CONFIG::SCREEN_ID     ]) ;
   bool       is_camera_active = bool(ConfigStore[CONFIG::CAMERA_ID     ]) ;
-#ifndef TEXT_BIN_NYI
   bool       is_text_active   = bool(ConfigStore[CONFIG::TEXT_ID       ]) ;
-#endif // TEXT_BIN_NYI
   bool       is_image_active  = bool(ConfigStore[CONFIG::IMAGE_ID      ]) ;
   int        screen_w         = int (ConfigStore[CONFIG::SCREENCAP_W_ID]) ;
   int        screen_h         = int (ConfigStore[CONFIG::SCREENCAP_H_ID]) ;
@@ -836,6 +831,9 @@ bool Gstreamer::ConfigureCompositorBin()
   int        framerate_idx    = int (ConfigStore[CONFIG::FRAMERATE_ID  ]) ;
   int        framerate        = CONFIG::FrameRates()[framerate_idx].getIntValue() ;
   Point<int> resolution       = AvCaster::GetCameraResolution() ;
+#ifndef GST_COMPOSITOR_BUG
+  String     caps_str         = Gst::MakeVideoCapsString(output_w , output_h , framerate) ;
+#endif // GST_COMPOSITOR_BUG
   int        screen_x         = 0 ;
   int        screen_y         = 0 ;
   int        image_w          = output_w ;
@@ -849,12 +847,12 @@ bool Gstreamer::ConfigureCompositorBin()
   int        screen_z         = (  is_screen_active                     )                     ? 2 : 0 ;
   int        camera_z         = ( !is_screen_active ||  is_camera_active)                     ? 3 : 0 ;
   int        image_z          = ((!is_screen_active && !is_camera_active) || is_image_active) ? 4 : 1 ;
-  String     caps_str         = Gst::MakeVideoCapsString(output_w , output_h , framerate) ;
+  int        text_z           = 5 ; UNUSED(text_z) ; // TODO:
 
 DEBUG_TRACE_CONFIGURE_COMPOSITOR_BIN
 
 #ifdef NO_DYNAMIC_MEDIA_Z_ORDER
-image_z = 0 ; screen_z = 1 ; camera_z = 2 ;
+image_z = 0 ; screen_z = 1 ; camera_z = 2 ; text_z = 3 ;
 #endif // NO_DYNAMIC_MEDIA_Z_ORDER
 
 #ifndef GST_COMPOSITOR_BUG
@@ -874,26 +872,15 @@ GstElement* Gstreamer::ConfigurePreviewBin()
 {
   GstElement *current_sink , *next_sink ;
 
-  bool is_active = bool(ConfigStore[CONFIG::PREVIEW_ID]) && !AvCaster::GetIsConfigPending() ;
+  bool is_active = bool(ConfigStore[CONFIG::PREVIEW_ID]) ;
   current_sink   = (Gst::IsInBin(PreviewBin , PreviewRealSink)) ? PreviewRealSink :
                    (Gst::IsInBin(PreviewBin , PreviewFauxSink)) ? PreviewFauxSink : nullptr ;
   next_sink      = (is_active) ? PreviewRealSink : PreviewFauxSink ;
 
 DEBUG_TRACE_CONFIGURE_PREVIEW_BIN
 
-  // configure elements
-  if (is_active)
-  {
-    Rectangle<int> preview_bounds = AvCaster::GetPreviewBounds() ;
-    gint           preview_x      = preview_bounds.getX() ;
-    gint           preview_y      = preview_bounds.getY() ;
-    gint           preview_w      = preview_bounds.getWidth() ;
-    gint           preview_h      = preview_bounds.getHeight() ;
-
-    if (!Gst::ConfigureVideoSink(PreviewRealSink , PreviewXwin , preview_x , preview_y ,
-                                                                 preview_w , preview_h ))
-      AvCaster::Error(GUI::GST_XWIN_ERROR_MSG) ;
-  }
+  // hide preview (expose spinner)
+  Gst::ConfigureVideoSink(PreviewRealSink , -10000 , -10000 , 1 , 1) ;
 
   // swap sink elements
   if (Gst::IsInBin(PreviewBin , current_sink) && next_sink != current_sink)
@@ -1000,10 +987,27 @@ String Gstreamer::VersionMsg() { return Gst::VersionMsg() ; }
 
 bool Gstreamer::IsSufficientVersion() { return Gst::IsSufficientVersion() ; }
 
+void Gstreamer::HandlePlayingMessage(GstMessage* /*message*/)
+{
+  // configure preview
+  if (bool(ConfigStore[CONFIG::PREVIEW_ID]) && !AvCaster::GetIsConfigPending())
+  {
+    Rectangle<int> preview_bounds = AvCaster::GetPreviewBounds() ;
+    gint           preview_x      = preview_bounds.getX() ;
+    gint           preview_y      = preview_bounds.getY() ;
+    gint           preview_w      = preview_bounds.getWidth() ;
+    gint           preview_h      = preview_bounds.getHeight() ;
+
+    Gst::ConfigureVideoSink(PreviewRealSink , preview_x , preview_y , preview_w , preview_h) ;
+  }
+
+  AvCaster::HandleReconfigured() ;
+}
+
 void Gstreamer::HandleErrorMessage(GstMessage* message)
 {
-  GError *error ;
-  gchar  *debug ;
+  GError* error ;
+  gchar*  debug ;
 
   gst_message_parse_error(message , &error , &debug) ;
 

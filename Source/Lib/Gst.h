@@ -38,7 +38,8 @@ public:
 
   // state
   bool setState          (GstState next_state) ;
-  bool setMessageHandlers(void (*on_error_cb)(GstMessage* message)) ;
+  bool setMessageHandlers(void (*on_playing_cb)(GstMessage* message) ,
+                          void (*on_error_cb  )(GstMessage* message) ) ;
   bool addBin            (GstElement* a_bin) ;
 //   bool removeBin         (GstElement* a_bin) ;
 
@@ -54,7 +55,8 @@ public:
 private:
 
   // event handlers and callbacks
-  void (*handleErrorMessage)(GstMessage* message) ;
+  void (*handlePlayingMessage)(GstMessage* message) ;
+  void (*handleErrorMessage  )(GstMessage* message) ;
 
 
 public:
@@ -99,9 +101,8 @@ public:
   static void ConfigureFileSink      (GstElement* a_file_sink , String location) ;
   static void ConfigureCompositor    (GstElement* a_compositor , guint background_n) ;
   static void ConfigureCompositorSink(GstPad* sinkpad , gint w , gint h , gint x , gint y , gint z) ;
-  static bool ConfigureVideoSink     (GstElement* a_video_sink , guintptr x_window_handle ,
-                                      gint        preview_x    , gint     preview_y       ,
-                                      gint        preview_w    , gint     preview_h       ) ;
+  static bool SetVideoWindow         (GstElement* a_video_sink , guintptr x_window_handle) ;
+  static bool ConfigureVideoSink     (GstElement* a_video_sink , gint x , gint y , gint w , gint h) ;
   static void ConfigureTestAudio     (GstElement* a_test_source) ;
   static void ConfigureX264Encoder   (GstElement* an_x264_encoder , guint bitrate) ;
   static void ConfigureLameEncoder   (GstElement* a_lame_encoder , guint bitrate) ;

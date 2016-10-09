@@ -319,6 +319,9 @@
     <ClCompile Include="..\..\Source\Views\Preview.cpp">
       <Filter>AvCaster\Source\Views</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Views\Spinner.cpp">
+      <Filter>AvCaster\Source\Views</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\Views\Statusbar.cpp">
       <Filter>AvCaster\Source\Views</Filter>
     </ClCompile>
@@ -1519,6 +1522,9 @@
       <Filter>AvCaster\Headers\Views</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Views\Preview.h">
+      <Filter>AvCaster\Headers\Views</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Views\Spinner.h">
       <Filter>AvCaster\Headers\Views</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Views\Statusbar.h">
